@@ -1,47 +1,46 @@
 // C++ code
 #include <Servo.h>
 
-// button pins, subject to change!
+// button pins 
 const int songPin = 8;
-const int servoPin = 11;
+const int servoPin = 12;
 
-// button & servo states
+// initial button & servo states
 int songButton = 0;
 int servoButton = 0;
 
+// servo positions!
 int startingPos = 0;
 int fishingPos = 180;
 
+// create an instance of a servo motor with a fun name
 Servo funMotor;
 
 void setup()
 {
-  // lights & music pins
+  // LED & music pins
   pinMode(2, OUTPUT);
   pinMode(9, OUTPUT);
   pinMode(3, OUTPUT);
   pinMode(4, OUTPUT);
   pinMode(5, OUTPUT);
 
-  // servo control pin
-  pinMode(7, OUTPUT);
-  funMotor.attach(10);
+  // attach servo control pin
+  funMotor.attach(11);
 
-  //button control pins
+  // button control pins
   pinMode(songPin, INPUT);
   pinMode(servoPin, INPUT);
-
-  // serial monitor intialization
-  Serial.begin(9600);
 }
 
+// ran 
 void loop() {
 
+// check for button states
 songButton = digitalRead(songPin);
 servoButton = digitalRead(servoPin);
 
-
-
+// elif statement based on button states for song & LEDs
 if (songButton == HIGH) {
     digitalWrite(2, HIGH);
     tone(9,660,100);
@@ -672,24 +671,21 @@ if (songButton == HIGH) {
     delay(5000);
   }
 
-  else if (songButton == LOW) {
-    digitalWrite(5, LOW);
+  else {
+    // nothing here
   }
 
-  else if (servoButton == HIGH) {
+
+// elif statement that checks for button states for servo control
+  if (servoButton == LOW) {
     funMotor.write(fishingPos);
   }
 
-  else if (servoButton == LOW) {
+  else if (servoButton == HIGH) {
     funMotor.write(startingPos);
   }
 
   else {
-    /* Can't remeber if C++ requires an else statement.
-     * If it does:
-     * End song and servo function in ELSE instead of ELSE IF */
+    // nothing here
   }
 }
-
-
-
